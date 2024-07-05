@@ -1,0 +1,37 @@
+package domain
+
+import (
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestBooking(t *testing.T) {
+	tests := []struct {
+		name string
+		fn   func(t *testing.T)
+	}{
+		{
+			name: "new booking",
+			fn: func(t *testing.T) {
+				checkIn := time.Now().UTC()
+				checkOut := checkIn.Add(time.Hour * 24 * 3)
+				booking := NewBooking("1", checkIn, checkOut, 2)
+				assert.NotNil(t, booking)
+			},
+		},
+		{
+			name: "calculate overnight",
+			fn: func(t *testing.T) {
+				checkIn := time.Now().UTC()
+				checkOut := checkIn.Add(time.Hour * 24 * 3)
+				booking := NewBooking("1", checkIn, checkOut, 2)
+				assert.Equal(t, 3, booking.CalculateOvernight())
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, test.fn)
+	}
+}
