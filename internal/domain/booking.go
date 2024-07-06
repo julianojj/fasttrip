@@ -34,3 +34,7 @@ func NewBooking(
 func (b *Booking) CalculateOvernight() int {
 	return int(b.CheckOut.Sub(b.CheckIn).Hours() / 24)
 }
+
+func (b *Booking) CalculateTotalAmount(amount float64) float64 {
+	return float64(b.CalculateOvernight()) * amount
+}

@@ -32,6 +32,7 @@ func TestMakeBooking(t *testing.T) {
 				assert.NoError(t, err)
 				assert.NotNil(t, output.BookingID)
 				assert.Equal(t, 3, output.Overnight)
+				assert.Equal(t, 300.00, output.TotalAmount)
 			},
 		},
 		{

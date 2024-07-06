@@ -19,8 +19,9 @@ type (
 		TotalGuests int       `json:"total_guests"`
 	}
 	MakeBookingOutput struct {
-		BookingID string `json:"booking_id"`
-		Overnight int    `json:"overnight"`
+		BookingID   string  `json:"booking_id"`
+		Overnight   int     `json:"overnight"`
+		TotalAmount float64 `json:"total_amount"`
 	}
 )
 
@@ -58,7 +59,8 @@ func (mb *MakeBooking) Execute(input *MakeBookingInput) (*MakeBookingOutput, err
 		return nil, err
 	}
 	return &MakeBookingOutput{
-		BookingID: booking.ID,
-		Overnight: booking.CalculateOvernight(),
+		BookingID:   booking.ID,
+		Overnight:   booking.CalculateOvernight(),
+		TotalAmount: booking.CalculateTotalAmount(existingRoom.Price),
 	}, nil
 }
