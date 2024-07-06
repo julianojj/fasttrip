@@ -30,6 +30,15 @@ func TestBooking(t *testing.T) {
 				assert.Equal(t, 3, booking.CalculateOvernight())
 			},
 		},
+		{
+			name: "calculate total amount",
+			fn: func(t *testing.T) {
+				checkIn := time.Now().UTC()
+				checkOut := checkIn.Add(time.Hour * 24 * 3)
+				booking := NewBooking("1", checkIn, checkOut, 2)
+				assert.Equal(t, 3000.00, booking.CalculateTotalAmount(1000))
+			},
+		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, test.fn)
