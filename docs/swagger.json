@@ -1,0 +1,130 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.",
+        "title": "Fastrip API",
+        "contact": {},
+        "version": "v1.3.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/make_booking": {
+            "post": {
+                "description": "Faz nova reserva",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Faz nova reserva",
+                "parameters": [
+                    {
+                        "description": "MakeBookingInput",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usecases.MakeBookingInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.MakeBookingOutput"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controllers.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "usecases.MakeBookingInput": {
+            "type": "object",
+            "required": [
+                "check_in",
+                "check_out",
+                "room_id",
+                "total_guests"
+            ],
+            "properties": {
+                "check_in": {
+                    "type": "string",
+                    "example": "2024-06-01T11:00:00Z"
+                },
+                "check_out": {
+                    "type": "string",
+                    "example": "2024-06-04T13:00:00Z"
+                },
+                "room_id": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "total_guests": {
+                    "type": "integer",
+                    "example": 2
+                }
+            }
+        },
+        "usecases.MakeBookingOutput": {
+            "type": "object",
+            "properties": {
+                "booking_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
+                },
+                "overnight": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "total_amount": {
+                    "type": "number",
+                    "example": 300
+                }
+            }
+        }
+    }
+}
