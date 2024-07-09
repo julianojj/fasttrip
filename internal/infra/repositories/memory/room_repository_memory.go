@@ -23,9 +23,23 @@ func NewRoomRepositoryMemory() *RoomRepositoryMemory {
 	}
 }
 
+func (rrm *RoomRepositoryMemory) Save(room *domain.Room) error {
+	rrm.rooms = append(rrm.rooms, room)
+	return nil
+}
+
 func (rrm *RoomRepositoryMemory) FindByID(id string) (*domain.Room, error) {
 	for _, room := range rrm.rooms {
 		if room.ID == id {
+			return room, nil
+		}
+	}
+	return nil, nil
+}
+
+func (rrm *RoomRepositoryMemory) FindByCategory(category string) (*domain.Room, error) {
+	for _, room := range rrm.rooms {
+		if room.Category == category {
 			return room, nil
 		}
 	}
