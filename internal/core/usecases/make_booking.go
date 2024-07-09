@@ -3,8 +3,8 @@ package usecases
 import (
 	"time"
 
-	"github.com/julianojj/fastrip/internal/domain"
-	"github.com/julianojj/fastrip/internal/exceptions"
+	"github.com/julianojj/fastrip/internal/core/domain"
+	"github.com/julianojj/fastrip/internal/core/exceptions"
 )
 
 type (
@@ -13,15 +13,15 @@ type (
 		bookingRepository domain.BookingRepository
 	}
 	MakeBookingInput struct {
-		RoomID      string    `json:"room_id"`
-		CheckIn     time.Time `json:"check_in"`
-		CheckOut    time.Time `json:"check_out"`
-		TotalGuests int       `json:"total_guests"`
+		RoomID      string    `json:"room_id" binding:"required" example:"1"`
+		CheckIn     time.Time `json:"check_in" binding:"required" example:"2024-06-01T11:00:00Z"`
+		CheckOut    time.Time `json:"check_out" binding:"required" example:"2024-06-04T13:00:00Z"`
+		TotalGuests int       `json:"total_guests" binding:"required" example:"2"`
 	}
 	MakeBookingOutput struct {
-		BookingID   string  `json:"booking_id"`
-		Overnight   int     `json:"overnight"`
-		TotalAmount float64 `json:"total_amount"`
+		BookingID   string  `json:"booking_id" example:"71cf737c-228e-4973-8197-3c5cf83454a9"`
+		Overnight   int     `json:"overnight" example:"3"`
+		TotalAmount float64 `json:"total_amount" example:"300"`
 	}
 )
 
