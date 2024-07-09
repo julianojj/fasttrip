@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/google/uuid"
+	"github.com/julianojj/fastrip/internal/core/exceptions"
 )
 
 type Room struct {
@@ -22,4 +23,17 @@ func NewRoom(
 		Price:    price,
 		Capacity: capacity,
 	}
+}
+
+func (r *Room) Validate() error {
+	if r.Category == "" {
+		return exceptions.ErrRequiredCategory
+	}
+	if r.Price <= 0 {
+		return exceptions.ErrInvalidPrice
+	}
+	if r.Capacity <= 0 {
+		return exceptions.ErrInvalidCapacity
+	}
+	return nil
 }
