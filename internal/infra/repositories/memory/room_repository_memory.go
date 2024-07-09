@@ -1,7 +1,7 @@
 package memory
 
 import (
-	"github.com/julianojj/fastrip/internal/domain"
+	"github.com/julianojj/fastrip/internal/core/domain"
 )
 
 type RoomRepositoryMemory struct {
