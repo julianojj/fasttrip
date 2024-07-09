@@ -38,3 +38,7 @@ func (b *Booking) CalculateOvernight() int {
 func (b *Booking) CalculateTotalAmount(amount float64) float64 {
 	return float64(b.CalculateOvernight()) * amount
 }
+
+func (b *Booking) ConfirmBooking() {
+	b.Status = "CONFIRMED"
+}

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/julianojj/fastrip/internal/exceptions"
+	"github.com/julianojj/fastrip/internal/core/exceptions"
 	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
 	"github.com/stretchr/testify/assert"
 )
@@ -49,11 +49,12 @@ func TestMakeBooking(t *testing.T) {
 					CheckOut:    checkOut,
 					TotalGuests: 2,
 				}
-				makeBooking.Execute(input)
-				output, err := makeBooking.Execute(input)
+				output, _ := makeBooking.Execute(input)
+				booking, _ := bookingRepository.FindByID(output.BookingID)
+				booking.ConfirmBooking()
+				bookingRepository.Update(booking)
+				_, err := makeBooking.Execute(input)
 				assert.EqualError(t, err, exceptions.ErrPeriodNotAllowed.Error())
-				assert.Nil(t, output)
-
 			},
 		},
 		{

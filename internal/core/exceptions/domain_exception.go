@@ -5,7 +5,6 @@ type DomainException struct {
 }
 
 var (
-	ErrRoomNotFound     = NewDomainException("Room not found")
 	ErrPeriodNotAllowed = NewDomainException("Period not allowed")
 	ErrCapacityExceeded = NewDomainException("Capacity exceeded")
 )

@@ -1,0 +1,89 @@
+definitions:
+  controllers.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  usecases.MakeBookingInput:
+    properties:
+      check_in:
+        example: "2024-06-01T11:00:00Z"
+        type: string
+      check_out:
+        example: "2024-06-04T13:00:00Z"
+        type: string
+      room_id:
+        example: "1"
+        type: string
+      total_guests:
+        example: 2
+        type: integer
+    required:
+    - check_in
+    - check_out
+    - room_id
+    - total_guests
+    type: object
+  usecases.MakeBookingOutput:
+    properties:
+      booking_id:
+        example: 71cf737c-228e-4973-8197-3c5cf83454a9
+        type: string
+      overnight:
+        example: 3
+        type: integer
+      total_amount:
+        example: 300
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Fastrip API permite executar operações para cadastrar quartos, fazer
+    reservas, checkin e checkout.
+  title: Fastrip API
+  version: v1.3.0
+paths:
+  /make_booking:
+    post:
+      consumes:
+      - application/json
+      description: Faz nova reserva
+      parameters:
+      - description: MakeBookingInput
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecases.MakeBookingInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/usecases.MakeBookingOutput'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Faz nova reserva
+      tags:
+      - booking
+swagger: "2.0"
