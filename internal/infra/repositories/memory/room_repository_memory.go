@@ -45,3 +45,7 @@ func (rrm *RoomRepositoryMemory) FindByCategory(category string) (*domain.Room, 
 	}
 	return nil, nil
 }
+
+func (rrm *RoomRepositoryMemory) FindAll() ([]*domain.Room, error) {
+	return rrm.rooms, nil
+}

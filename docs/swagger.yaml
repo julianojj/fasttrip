@@ -38,6 +38,28 @@ definitions:
         example: 300
         type: number
     type: object
+  usecases.RegisterRoomInput:
+    properties:
+      capacity:
+        example: 4
+        type: integer
+      category:
+        example: Premium
+        type: string
+      price:
+        example: 2000
+        type: number
+    required:
+    - capacity
+    - category
+    - price
+    type: object
+  usecases.RegisterRoomOutput:
+    properties:
+      room_id:
+        example: 71cf737c-228e-4973-8197-3c5cf83454a9
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -86,4 +108,44 @@ paths:
       summary: Faz nova reserva
       tags:
       - booking
+  /register_room:
+    post:
+      consumes:
+      - application/json
+      description: Registra novo quarto
+      parameters:
+      - description: RegisterRoomInput
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecases.RegisterRoomInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/usecases.RegisterRoomOutput'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Registra novo quarto
+      tags:
+      - room
 swagger: "2.0"
