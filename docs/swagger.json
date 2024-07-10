@@ -68,6 +68,67 @@
                     }
                 }
             }
+        },
+        "/register_room": {
+            "post": {
+                "description": "Registra novo quarto",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Registra novo quarto",
+                "parameters": [
+                    {
+                        "description": "RegisterRoomInput",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usecases.RegisterRoomInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.RegisterRoomOutput"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -123,6 +184,37 @@
                 "total_amount": {
                     "type": "number",
                     "example": 300
+                }
+            }
+        },
+        "usecases.RegisterRoomInput": {
+            "type": "object",
+            "required": [
+                "capacity",
+                "category",
+                "price"
+            ],
+            "properties": {
+                "capacity": {
+                    "type": "integer",
+                    "example": 4
+                },
+                "category": {
+                    "type": "string",
+                    "example": "Premium"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 2000
+                }
+            }
+        },
+        "usecases.RegisterRoomOutput": {
+            "type": "object",
+            "properties": {
+                "room_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
                 }
             }
         }
