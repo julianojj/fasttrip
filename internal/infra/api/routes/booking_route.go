@@ -23,4 +23,5 @@ func NewBookingRoute(
 
 func (r *BookingRoute) Init() {
 	r.r.HandleFunc("/make_booking", r.bookingController.MakeBooking)
+	r.r.HandleFunc("/get_bookings", r.bookingController.GetBookings)
 }
