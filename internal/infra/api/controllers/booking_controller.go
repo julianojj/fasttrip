@@ -12,6 +12,7 @@ import (
 type (
 	BookingController struct {
 		makeBooking *usecases.MakeBooking
+		getBookings *usecases.GetBookings
 	}
 	ErrorResponse struct {
 		Message string `json:"message"`
@@ -21,9 +22,11 @@ type (
 
 func NewBookingController(
 	makeBooking *usecases.MakeBooking,
+	getBookings *usecases.GetBookings,
 ) *BookingController {
 	return &BookingController{
 		makeBooking,
+		getBookings,
 	}
 }
 
@@ -64,6 +67,29 @@ func (c *BookingController) MakeBooking(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(&output); err != nil {
+		handleError(w, http.StatusInternalServerError, "Failed to encode response", err)
+		return
+	}
+}
+
+func (c *BookingController) GetBookings(w http.ResponseWriter, r *http.Request) {
+	output, err := c.getBookings.Execute()
+	if err != nil {
+		statusCode := http.StatusInternalServerError
+		switch err.(type) {
+		case *exceptions.DomainException:
+			statusCode = http.StatusUnprocessableEntity
+		case *exceptions.NotFoundException:
+			statusCode = http.StatusNotFound
+		}
+
+		handleError(w, statusCode, err.Error(), err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(&output); err != nil {
 		handleError(w, http.StatusInternalServerError, "Failed to encode response", err)
 		return
