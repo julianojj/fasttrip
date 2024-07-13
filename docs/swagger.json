@@ -4,7 +4,7 @@
         "description": "Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.",
         "title": "Fastrip API",
         "contact": {},
-        "version": "v1.5.0"
+        "version": "v1.6.0"
     },
     "host": "localhost:8080",
     "paths": {
@@ -41,6 +41,57 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/get_booking/{booking_id}": {
+            "get": {
+                "description": "Pegar reserva",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Pegar reserva",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Booking ID",
+                        "name": "booking_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.GetBookingOutput"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/controllers.ErrorResponse"
                         }
@@ -369,6 +420,39 @@
                 "token": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g"
+                }
+            }
+        },
+        "usecases.GetBookingOutput": {
+            "type": "object",
+            "properties": {
+                "booking_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
+                },
+                "check_in": {
+                    "type": "string",
+                    "example": "2024-06-01T11:00:00Z"
+                },
+                "check_out": {
+                    "type": "string",
+                    "example": "2024-06-04T13:00:00Z"
+                },
+                "overnight": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "room_category": {
+                    "type": "string",
+                    "example": "Standard"
+                },
+                "total_amount": {
+                    "type": "number",
+                    "example": 300
+                },
+                "total_guests": {
+                    "type": "integer",
+                    "example": 2
                 }
             }
         },

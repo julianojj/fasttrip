@@ -17,7 +17,7 @@ import (
 )
 
 // @title			Fastrip API
-// @version		v1.5.0
+// @version		v1.6.0
 // @description	Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
 // @host			localhost:8080
 func main() {
@@ -38,12 +38,13 @@ func main() {
 
 	makeBooking := usecases.NewMakeBooking(roomRepository, bookingRepository)
 	getBookings := usecases.NewGetBookings(roomRepository, bookingRepository)
+	getBooking := usecases.NewGetBooking(roomRepository, bookingRepository)
 	registerRoom := usecases.NewRegisterRoom(roomRepository)
 	getRooms := usecases.NewGetRooms(roomRepository)
 	registerUser := usecases.NewRegisterUser(userRepository, hash)
 	authUser := usecases.NewAuthUser(userRepository, hash, sign)
 
-	bookingController := controllers.NewBookingController(makeBooking, getBookings)
+	bookingController := controllers.NewBookingController(makeBooking, getBookings, getBooking)
 	roomController := controllers.NewRoomController(registerRoom, getRooms)
 	userController := controllers.NewUserController(registerUser, authUser)
 

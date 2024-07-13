@@ -28,4 +28,5 @@ func NewBookingRoute(
 func (br *BookingRoute) Init() {
 	br.r.HandleFunc("/make_booking", br.authMiddleware.ApplyHandler(br.bookingController.MakeBooking))
 	br.r.HandleFunc("/get_bookings", br.authMiddleware.ApplyHandler(br.bookingController.GetBookings))
+	br.r.HandleFunc("/get_booking/{id}", br.authMiddleware.ApplyHandler(br.bookingController.GetBooking))
 }

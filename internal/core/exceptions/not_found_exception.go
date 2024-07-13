@@ -5,7 +5,8 @@ type NotFoundException struct {
 }
 
 var (
-	ErrRoomNotFound = NewNotFoundException("Room not found")
+	ErrRoomNotFound    = NewNotFoundException("Room not found")
+	ErrBookingNotFound = NewNotFoundException("Booking not found")
 )
 
 var _ error = (*NotFoundException)(nil)

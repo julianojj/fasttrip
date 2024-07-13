@@ -61,6 +61,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/get_booking/{booking_id}": {
+            "get": {
+                "description": "Pegar reserva",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Pegar reserva",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Booking ID",
+                        "name": "booking_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.GetBookingOutput"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/get_bookings": {
             "get": {
                 "description": "Pegar reservas",
@@ -379,6 +430,39 @@ const docTemplate = `{
                 }
             }
         },
+        "usecases.GetBookingOutput": {
+            "type": "object",
+            "properties": {
+                "booking_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
+                },
+                "check_in": {
+                    "type": "string",
+                    "example": "2024-06-01T11:00:00Z"
+                },
+                "check_out": {
+                    "type": "string",
+                    "example": "2024-06-04T13:00:00Z"
+                },
+                "overnight": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "room_category": {
+                    "type": "string",
+                    "example": "Standard"
+                },
+                "total_amount": {
+                    "type": "number",
+                    "example": 300
+                },
+                "total_guests": {
+                    "type": "integer",
+                    "example": 2
+                }
+            }
+        },
         "usecases.GetBookingsOutput": {
             "type": "object",
             "properties": {
@@ -547,7 +631,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "v1.5.0",
+	Version:          "v1.6.0",
 	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},
