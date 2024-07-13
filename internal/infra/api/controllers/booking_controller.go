@@ -12,6 +12,7 @@ type (
 	BookingController struct {
 		makeBooking *usecases.MakeBooking
 		getBookings *usecases.GetBookings
+		getBooking  *usecases.GetBooking
 	}
 	ErrorResponse struct {
 		Message string `json:"message"`
@@ -22,10 +23,12 @@ type (
 func NewBookingController(
 	makeBooking *usecases.MakeBooking,
 	getBookings *usecases.GetBookings,
+	getBooking *usecases.GetBooking,
 ) *BookingController {
 	return &BookingController{
 		makeBooking,
 		getBookings,
+		getBooking,
 	}
 }
 
@@ -70,7 +73,7 @@ func (c *BookingController) MakeBooking(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-// GetRooms godoc
+// GetBookings godoc
 //
 //	@Summary		Pegar reservas
 //	@Description	Pegar reservas
@@ -88,6 +91,40 @@ func (c *BookingController) GetBookings(w http.ResponseWriter, r *http.Request) 
 		switch err.(type) {
 		case *exceptions.DomainException:
 			statusCode = http.StatusUnprocessableEntity
+		}
+		handleError(w, statusCode, err.Error())
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(&output); err != nil {
+		handleError(w, http.StatusInternalServerError, "Failed to encode response")
+		return
+	}
+}
+
+// GetBooking godoc
+//
+//	@Summary		Pegar reserva
+//	@Description	Pegar reserva
+//	@Tags			booking
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Insert you bearer token"
+//	@Param			booking_id		path		string	true	"Booking ID"
+//	@Success		200				{array}		usecases.GetBookingOutput
+//	@Failure		422				{object}	ErrorResponse
+//	@Failure		500				{object}	ErrorResponse
+//	@Router			/get_booking/{booking_id} [get]
+func (c *BookingController) GetBooking(w http.ResponseWriter, r *http.Request) {
+	params := r.PathValue("id")
+	output, err := c.getBooking.Execute(params)
+	if err != nil {
+		statusCode := http.StatusInternalServerError
+		switch err.(type) {
+		case *exceptions.DomainException:
+			statusCode = http.StatusUnprocessableEntity
+		case *exceptions.NotFoundException:
+			statusCode = http.StatusNotFound
 		}
 		handleError(w, statusCode, err.Error())
 		return
