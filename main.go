@@ -5,17 +5,19 @@ import (
 	"net/http"
 	"os"
 
+	_ "github.com/joho/godotenv/autoload"
 	_ "github.com/julianojj/fastrip/docs"
 	"github.com/julianojj/fastrip/internal/core/usecases"
 	"github.com/julianojj/fastrip/internal/infra/adapters"
 	"github.com/julianojj/fastrip/internal/infra/api/controllers"
+	"github.com/julianojj/fastrip/internal/infra/api/middlewares"
 	"github.com/julianojj/fastrip/internal/infra/api/routes"
 	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // @title			Fastrip API
-// @version		v1.3.0
+// @version		v1.5.0
 // @description	Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
 // @host			localhost:8080
 func main() {
@@ -32,19 +34,23 @@ func main() {
 	bookingRepository := memory.NewBookingRepositoryMemory()
 	userRepository := memory.NewUserRepositoryMemory()
 	hash := adapters.NewBcrypt()
+	sign := adapters.NewJWT()
 
 	makeBooking := usecases.NewMakeBooking(roomRepository, bookingRepository)
 	getBookings := usecases.NewGetBookings(roomRepository, bookingRepository)
 	registerRoom := usecases.NewRegisterRoom(roomRepository)
 	getRooms := usecases.NewGetRooms(roomRepository)
 	registerUser := usecases.NewRegisterUser(userRepository, hash)
+	authUser := usecases.NewAuthUser(userRepository, hash, sign)
 
 	bookingController := controllers.NewBookingController(makeBooking, getBookings)
 	roomController := controllers.NewRoomController(registerRoom, getRooms)
-	userController := controllers.NewUserController(registerUser)
+	userController := controllers.NewUserController(registerUser, authUser)
 
-	routes.NewBookingRoute(r, bookingController).Init()
-	routes.NewRoomRoute(r, roomController).Init()
+	authMiddleware := middlewares.NewAuthMiddleware(sign)
+
+	routes.NewBookingRoute(r, bookingController, authMiddleware).Init()
+	routes.NewRoomRoute(r, roomController, authMiddleware).Init()
 	routes.NewUserRoute(r, userController).Init()
 
 	r.HandleFunc("/swagger/*", httpSwagger.WrapHandler)

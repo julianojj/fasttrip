@@ -6,6 +6,65 @@ definitions:
       message:
         type: string
     type: object
+  usecases.AuthUserInput:
+    properties:
+      email:
+        example: juliano@test.com
+        type: string
+      password:
+        example: P4ssw0rd!
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  usecases.AuthUserOutput:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g
+        type: string
+    required:
+    - token
+    type: object
+  usecases.GetBookingsOutput:
+    properties:
+      booking_id:
+        example: 71cf737c-228e-4973-8197-3c5cf83454a9
+        type: string
+      check_in:
+        example: "2024-06-01T11:00:00Z"
+        type: string
+      check_out:
+        example: "2024-06-04T13:00:00Z"
+        type: string
+      overnight:
+        example: 3
+        type: integer
+      room_category:
+        example: Standard
+        type: string
+      total_amount:
+        example: 300
+        type: number
+      total_guests:
+        example: 2
+        type: integer
+    type: object
+  usecases.GetRoomsOutput:
+    properties:
+      capacity:
+        example: 4
+        type: integer
+      category:
+        example: Premium
+        type: string
+      price:
+        example: 2000
+        type: number
+      room_id:
+        example: 71cf737c-228e-4973-8197-3c5cf83454a9
+        type: string
+    type: object
   usecases.MakeBookingInput:
     properties:
       check_in:
@@ -90,14 +149,107 @@ info:
   description: Fastrip API permite executar operações para cadastrar quartos, fazer
     reservas, checkin e checkout.
   title: Fastrip API
-  version: v1.3.0
+  version: v1.5.0
 paths:
+  /auth_user:
+    post:
+      consumes:
+      - application/json
+      description: Autentica usuário
+      parameters:
+      - description: AuthUserInput
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecases.AuthUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecases.AuthUserOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Autentica usuário
+      tags:
+      - user
+  /get_bookings:
+    get:
+      description: Pegar reservas
+      parameters:
+      - description: Insert you bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/usecases.GetBookingsOutput'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Pegar reservas
+      tags:
+      - booking
+  /get_rooms:
+    get:
+      description: Pegar quartos
+      parameters:
+      - description: Insert you bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/usecases.GetRoomsOutput'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Pegar quartos
+      tags:
+      - room
   /make_booking:
     post:
       consumes:
       - application/json
       description: Faz nova reserva
       parameters:
+      - description: Insert you bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: MakeBookingInput
         in: body
         name: input
@@ -138,6 +290,11 @@ paths:
       - application/json
       description: Registra novo quarto
       parameters:
+      - description: Insert you bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: RegisterRoomInput
         in: body
         name: input

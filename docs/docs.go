@@ -15,6 +15,140 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth_user": {
+            "post": {
+                "description": "Autentica usuário",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Autentica usuário",
+                "parameters": [
+                    {
+                        "description": "AuthUserInput",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usecases.AuthUserInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usecases.AuthUserOutput"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/get_bookings": {
+            "get": {
+                "description": "Pegar reservas",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Pegar reservas",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.GetBookingsOutput"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/get_rooms": {
+            "get": {
+                "description": "Pegar quartos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Pegar quartos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.GetRoomsOutput"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/make_booking": {
             "post": {
                 "description": "Faz nova reserva",
@@ -29,6 +163,13 @@ const docTemplate = `{
                 ],
                 "summary": "Faz nova reserva",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "MakeBookingInput",
                         "name": "input",
@@ -90,6 +231,13 @@ const docTemplate = `{
                 ],
                 "summary": "Registra novo quarto",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "RegisterRoomInput",
                         "name": "input",
@@ -199,6 +347,89 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "usecases.AuthUserInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "juliano@test.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "P4ssw0rd!"
+                }
+            }
+        },
+        "usecases.AuthUserOutput": {
+            "type": "object",
+            "required": [
+                "token"
+            ],
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g"
+                }
+            }
+        },
+        "usecases.GetBookingsOutput": {
+            "type": "object",
+            "properties": {
+                "booking_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
+                },
+                "check_in": {
+                    "type": "string",
+                    "example": "2024-06-01T11:00:00Z"
+                },
+                "check_out": {
+                    "type": "string",
+                    "example": "2024-06-04T13:00:00Z"
+                },
+                "overnight": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "room_category": {
+                    "type": "string",
+                    "example": "Standard"
+                },
+                "total_amount": {
+                    "type": "number",
+                    "example": 300
+                },
+                "total_guests": {
+                    "type": "integer",
+                    "example": 2
+                }
+            }
+        },
+        "usecases.GetRoomsOutput": {
+            "type": "object",
+            "properties": {
+                "capacity": {
+                    "type": "integer",
+                    "example": 4
+                },
+                "category": {
+                    "type": "string",
+                    "example": "Premium"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 2000
+                },
+                "room_id": {
+                    "type": "string",
+                    "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
                 }
             }
         },
@@ -316,7 +547,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "v1.3.0",
+	Version:          "v1.5.0",
 	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},

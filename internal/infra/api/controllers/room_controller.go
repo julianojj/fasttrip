@@ -30,20 +30,20 @@ func NewRoomController(
 //	@Tags			room
 //	@Accept			json
 //	@Produce		json
-//	@Param			input	body		usecases.RegisterRoomInput	true	"RegisterRoomInput"
-//	@Success		201		{array}		usecases.RegisterRoomOutput
-//	@Failure		400		{object}	ErrorResponse
-//	@Failure		404		{object}	ErrorResponse
-//	@Failure		422		{object}	ErrorResponse
-//	@Failure		500		{object}	ErrorResponse
+//	@Param			Authorization	header		string						true	"Insert you bearer token"
+//	@Param			input			body		usecases.RegisterRoomInput	true	"RegisterRoomInput"
+//	@Success		201				{array}		usecases.RegisterRoomOutput
+//	@Failure		400				{object}	ErrorResponse
+//	@Failure		404				{object}	ErrorResponse
+//	@Failure		422				{object}	ErrorResponse
+//	@Failure		500				{object}	ErrorResponse
 //	@Router			/register_room [post]
 func (c *RoomController) RegisterRoom(w http.ResponseWriter, r *http.Request) {
 	var input *usecases.RegisterRoomInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		handleError(w, http.StatusBadRequest, "Invalid request body", err)
+		handleError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
-
 	output, err := c.registerRoom.Execute(input)
 	if err != nil {
 		statusCode := http.StatusInternalServerError
@@ -53,19 +53,29 @@ func (c *RoomController) RegisterRoom(w http.ResponseWriter, r *http.Request) {
 		case *exceptions.NotFoundException:
 			statusCode = http.StatusNotFound
 		}
-
-		handleError(w, statusCode, err.Error(), err)
+		handleError(w, statusCode, err.Error())
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(&output); err != nil {
-		handleError(w, http.StatusInternalServerError, "Failed to encode response", err)
+		handleError(w, http.StatusInternalServerError, "Failed to encode response")
 		return
 	}
 }
 
+// GetRooms godoc
+//
+//	@Summary		Pegar quartos
+//	@Description	Pegar quartos
+//	@Tags			room
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Insert you bearer token"
+//	@Success		200				{array}		usecases.GetRoomsOutput
+//	@Failure		422				{object}	ErrorResponse
+//	@Failure		500				{object}	ErrorResponse
+//	@Router			/get_rooms [get]
 func (c *RoomController) GetRooms(w http.ResponseWriter, r *http.Request) {
 	output, err := c.getRooms.Execute()
 	if err != nil {
@@ -73,18 +83,14 @@ func (c *RoomController) GetRooms(w http.ResponseWriter, r *http.Request) {
 		switch err.(type) {
 		case *exceptions.DomainException:
 			statusCode = http.StatusUnprocessableEntity
-		case *exceptions.NotFoundException:
-			statusCode = http.StatusNotFound
 		}
-
-		handleError(w, statusCode, err.Error(), err)
+		handleError(w, statusCode, err.Error())
 		return
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(&output); err != nil {
-		handleError(w, http.StatusInternalServerError, "Failed to encode response", err)
+		handleError(w, http.StatusInternalServerError, "Failed to encode response")
 		return
 	}
 }
