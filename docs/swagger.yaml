@@ -60,6 +60,30 @@ definitions:
         example: 71cf737c-228e-4973-8197-3c5cf83454a9
         type: string
     type: object
+  usecases.RegisterUserInput:
+    properties:
+      email:
+        example: juliano@test.com
+        type: string
+      name:
+        example: Juliano
+        type: string
+      password:
+        example: P4ssw0rd!
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  usecases.RegisterUserOutput:
+    properties:
+      id:
+        example: 506e8278-3b39-424e-84e8-c3a1877070b7
+        type: string
+    required:
+    - id
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -148,4 +172,38 @@ paths:
       summary: Registra novo quarto
       tags:
       - room
+  /register_user:
+    post:
+      consumes:
+      - application/json
+      description: Registra novo usuário
+      parameters:
+      - description: RegisterUserInput
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/usecases.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecases.RegisterUserOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Registra novo usuário
+      tags:
+      - user
 swagger: "2.0"

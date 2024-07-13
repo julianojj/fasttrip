@@ -129,6 +129,58 @@
                     }
                 }
             }
+        },
+        "/register_user": {
+            "post": {
+                "description": "Registra novo usuário",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Registra novo usuário",
+                "parameters": [
+                    {
+                        "description": "RegisterUserInput",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usecases.RegisterUserInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/usecases.RegisterUserOutput"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -215,6 +267,40 @@
                 "room_id": {
                     "type": "string",
                     "example": "71cf737c-228e-4973-8197-3c5cf83454a9"
+                }
+            }
+        },
+        "usecases.RegisterUserInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "juliano@test.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Juliano"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "P4ssw0rd!"
+                }
+            }
+        },
+        "usecases.RegisterUserOutput": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "506e8278-3b39-424e-84e8-c3a1877070b7"
                 }
             }
         }

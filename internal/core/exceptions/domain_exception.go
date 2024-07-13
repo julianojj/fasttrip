@@ -5,12 +5,16 @@ type DomainException struct {
 }
 
 var (
-	ErrPeriodNotAllowed  = NewDomainException("Period not allowed")
-	ErrCapacityExceeded  = NewDomainException("Capacity exceeded")
-	ErrRoomAlreadyExists = NewDomainException("Room already exists")
-	ErrRequiredCategory  = NewDomainException("Category is required")
-	ErrInvalidPrice      = NewDomainException("Invalid price")
-	ErrInvalidCapacity   = NewDomainException("Invalid capacity")
+	ErrPeriodNotAllowed   = NewDomainException("Period not allowed")
+	ErrCapacityExceeded   = NewDomainException("Capacity exceeded")
+	ErrRoomAlreadyExists  = NewDomainException("Room already exists")
+	ErrRequiredCategory   = NewDomainException("Category is required")
+	ErrInvalidPrice       = NewDomainException("Invalid price")
+	ErrInvalidCapacity    = NewDomainException("Invalid capacity")
+	ErrRequiredAPIKeyName = NewDomainException("API key name is required")
+	ErrInvalidEmail       = NewDomainException("Invalid email")
+	ErrEmailAlreadyExists = NewDomainException("Email already exists")
+	ErrInvalidPassword    = NewDomainException("Invalid password")
 )
 
 var _ error = (*DomainException)(nil)
