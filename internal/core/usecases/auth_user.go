@@ -47,7 +47,7 @@ func (a *AuthUser) Execute(input *AuthUserInput) (*AuthUserOutput, error) {
 	if !isMatchPassword {
 		return nil, exceptions.ErrInvalidLogin
 	}
-	expiresIn := time.Now().Add(time.Hour).Unix()
+	expiresIn := time.Now().Add(time.Hour * 24).Unix()
 	token, err := a.sign.Encode(user.ID, expiresIn)
 	if err != nil {
 		return nil, err

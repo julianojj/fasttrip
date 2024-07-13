@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/julianojj/fastrip/internal/core/exceptions"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -37,6 +38,16 @@ func TestBooking(t *testing.T) {
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				booking := NewBooking("1", checkIn, checkOut, 2)
 				assert.Equal(t, 3000.00, booking.CalculateTotalAmount(1000))
+			},
+		},
+		{
+			name: "return erro if invalid checkin",
+			fn: func(t *testing.T) {
+				checkIn := time.Now().UTC().Add(-time.Hour * 24 * 3)
+				checkOut := checkIn
+				booking := NewBooking("1", checkIn, checkOut, 2)
+				err := booking.Validate()
+				assert.EqualError(t, err, exceptions.ErrInvalidPeriod.Error())
 			},
 		},
 	}

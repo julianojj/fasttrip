@@ -46,8 +46,8 @@ func (gb *GetBookings) Execute() ([]*GetBookingsOutput, error) {
 		}
 		outputs[i] = &GetBookingsOutput{
 			BookingID:    booking.ID,
-			CheckIn:      booking.CheckIn,
-			CheckOut:     booking.CheckOut,
+			CheckIn:      booking.Period.Start,
+			CheckOut:     booking.Period.End,
 			TotalGuests:  booking.TotalGuests,
 			RoomCategory: room.Category,
 			Overnight:    booking.CalculateOvernight(),

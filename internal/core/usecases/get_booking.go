@@ -51,8 +51,8 @@ func (gb *GetBooking) Execute(bookingID string) (*GetBookingsOutput, error) {
 	}
 	return &GetBookingsOutput{
 		BookingID:    booking.ID,
-		CheckIn:      booking.CheckIn,
-		CheckOut:     booking.CheckOut,
+		CheckIn:      booking.Period.Start,
+		CheckOut:     booking.Period.End,
 		TotalGuests:  booking.TotalGuests,
 		RoomCategory: room.Category,
 		Overnight:    booking.CalculateOvernight(),
