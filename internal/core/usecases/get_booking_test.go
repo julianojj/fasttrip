@@ -21,7 +21,7 @@ func TestGetBookin(t *testing.T) {
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
 				getBooking := NewGetBooking(roomRepository, bookingRepository)
-				checkIn := time.Now().UTC()
+				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
 					RoomID:      "1",
@@ -48,12 +48,6 @@ func TestGetBookin(t *testing.T) {
 				bookingID := "booking_id"
 				_, err := getBooking.Execute(bookingID)
 				assert.EqualError(t, err, exceptions.ErrBookingNotFound.Error())
-			},
-		},
-		{
-			name: "return error if room not found",
-			fn: func(t *testing.T) {
-				// TODO
 			},
 		},
 	}

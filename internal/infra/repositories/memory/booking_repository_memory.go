@@ -38,7 +38,7 @@ func (brm *BookingRepositoryMemory) FindAll() ([]*domain.Booking, error) {
 
 func (brm *BookingRepositoryMemory) CheckAvailability(checkIn time.Time, checkOut time.Time) (bool, error) {
 	for _, booking := range brm.bookings {
-		if booking.CheckIn.Before(checkOut) && booking.CheckOut.After(checkIn) && booking.Status != "PENDING_PAYMENT" {
+		if booking.Period.Start.Before(checkOut) && booking.Period.End.After(checkIn) && booking.Status != "PENDING_PAYMENT" {
 			return false, nil
 		}
 	}

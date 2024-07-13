@@ -55,6 +55,9 @@ func (mb *MakeBooking) Execute(input *MakeBookingInput) (*MakeBookingOutput, err
 		return nil, exceptions.ErrPeriodNotAllowed
 	}
 	booking := domain.NewBooking(input.RoomID, input.CheckIn, input.CheckOut, input.TotalGuests)
+	if err := booking.Validate(); err != nil {
+		return nil, err
+	}
 	if err := mb.bookingRepository.Save(booking); err != nil {
 		return nil, err
 	}

@@ -15,6 +15,8 @@ var (
 	ErrInvalidEmail       = NewDomainException("Invalid email")
 	ErrEmailAlreadyExists = NewDomainException("Email already exists")
 	ErrInvalidPassword    = NewDomainException("Invalid password")
+	ErrInvalidPeriod      = NewDomainException("Invalid period")
+	ErrInsufficientPeriod = NewDomainException("Overnight should be greater than 1")
 )
 
 var _ error = (*DomainException)(nil)

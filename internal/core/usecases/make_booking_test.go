@@ -20,7 +20,7 @@ func TestMakeBooking(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
-				checkIn := time.Now().UTC()
+				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
 					RoomID:      "1",
@@ -41,7 +41,7 @@ func TestMakeBooking(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
-				checkIn := time.Now().UTC()
+				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
 					RoomID:      "1",
@@ -63,7 +63,7 @@ func TestMakeBooking(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
-				checkIn := time.Now().UTC()
+				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
 					RoomID:      "1",
