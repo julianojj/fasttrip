@@ -4,24 +4,28 @@ import (
 	"net/http"
 
 	"github.com/julianojj/fastrip/internal/infra/api/controllers"
+	"github.com/julianojj/fastrip/internal/infra/api/middlewares"
 )
 
 type RoomRoute struct {
 	r              *http.ServeMux
 	roomController *controllers.RoomController
+	authMiddleware *middlewares.AuthMiddleware
 }
 
 func NewRoomRoute(
 	r *http.ServeMux,
 	roomController *controllers.RoomController,
+	authMiddleware *middlewares.AuthMiddleware,
 ) *RoomRoute {
 	return &RoomRoute{
 		r,
 		roomController,
+		authMiddleware,
 	}
 }
 
-func (r *RoomRoute) Init() {
-	r.r.HandleFunc("/register_room", r.roomController.RegisterRoom)
-	r.r.HandleFunc("/get_rooms", r.roomController.GetRooms)
+func (rr *RoomRoute) Init() {
+	rr.r.HandleFunc("/register_room", rr.authMiddleware.ApplyHandler(rr.roomController.RegisterRoom))
+	rr.r.HandleFunc("/get_rooms", rr.authMiddleware.ApplyHandler(rr.roomController.GetRooms))
 }

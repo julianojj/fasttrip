@@ -23,4 +23,5 @@ func NewUserRoute(
 
 func (ur *UserRoute) Init() {
 	ur.r.HandleFunc("POST /register_user", ur.authController.RegisterUser)
+	ur.r.HandleFunc("POST /auth_user", ur.authController.AuthenticateUser)
 }
