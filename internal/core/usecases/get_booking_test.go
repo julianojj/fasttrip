@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetBookin(t *testing.T) {
+func TestGetBooking(t *testing.T) {
 	tests := []struct {
 		name string
 		fn   func(t *testing.T)
@@ -28,6 +28,8 @@ func TestGetBookin(t *testing.T) {
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 2,
+					Email:       "juliano@test.com",
+					Whatsapp:    "43999999999",
 				}
 				output, _ := makeBooking.Execute(input)
 				outputGetBooking, _ := getBooking.Execute(output.BookingID)

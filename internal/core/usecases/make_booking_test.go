@@ -27,6 +27,8 @@ func TestMakeBooking(t *testing.T) {
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 2,
+					Email:       "juliano@test.com",
+					Whatsapp:    "43999999999",
 				}
 				output, err := makeBooking.Execute(input)
 				assert.NoError(t, err)
@@ -48,6 +50,8 @@ func TestMakeBooking(t *testing.T) {
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 2,
+					Email:       "juliano@test.com",
+					Whatsapp:    "43999999999",
 				}
 				output, _ := makeBooking.Execute(input)
 				booking, _ := bookingRepository.FindByID(output.BookingID)
@@ -70,6 +74,8 @@ func TestMakeBooking(t *testing.T) {
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 4,
+					Email:       "juliano@test.com",
+					Whatsapp:    "43999999999",
 				}
 				output, err := makeBooking.Execute(input)
 				assert.EqualError(t, err, exceptions.ErrCapacityExceeded.Error())

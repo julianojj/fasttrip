@@ -18,7 +18,7 @@ func TestBooking(t *testing.T) {
 			fn: func(t *testing.T) {
 				checkIn := time.Now().UTC()
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
-				booking := NewBooking("1", checkIn, checkOut, 2)
+				booking := NewBooking("1", checkIn, checkOut, 2, "juliano@test.com", "43999999999")
 				assert.NotNil(t, booking)
 			},
 		},
@@ -27,7 +27,7 @@ func TestBooking(t *testing.T) {
 			fn: func(t *testing.T) {
 				checkIn := time.Now().UTC()
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
-				booking := NewBooking("1", checkIn, checkOut, 2)
+				booking := NewBooking("1", checkIn, checkOut, 2, "juliano@test.com", "43999999999")
 				assert.Equal(t, 3, booking.CalculateOvernight())
 			},
 		},
@@ -36,7 +36,7 @@ func TestBooking(t *testing.T) {
 			fn: func(t *testing.T) {
 				checkIn := time.Now().UTC()
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
-				booking := NewBooking("1", checkIn, checkOut, 2)
+				booking := NewBooking("1", checkIn, checkOut, 2, "juliano@test.com", "43999999999")
 				assert.Equal(t, 3000.00, booking.CalculateTotalAmount(1000))
 			},
 		},
@@ -45,7 +45,7 @@ func TestBooking(t *testing.T) {
 			fn: func(t *testing.T) {
 				checkIn := time.Now().UTC().Add(-time.Hour * 24 * 3)
 				checkOut := checkIn
-				booking := NewBooking("1", checkIn, checkOut, 2)
+				booking := NewBooking("1", checkIn, checkOut, 2, "juliano@test.com", "43999999999")
 				err := booking.Validate()
 				assert.EqualError(t, err, exceptions.ErrInvalidPeriod.Error())
 			},

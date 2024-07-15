@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"net/mail"
 	"time"
 	"unicode"
 
@@ -12,7 +11,7 @@ import (
 type User struct {
 	ID        string
 	Name      string
-	Email     string
+	Email     *Email
 	Password  string
 	CreatedAt time.Time
 }
@@ -21,25 +20,20 @@ func NewUser(name, email, password string) *User {
 	return &User{
 		ID:        uuid.NewString(),
 		Name:      name,
-		Email:     email,
+		Email:     NewEmail(email),
 		Password:  password,
 		CreatedAt: time.Now().UTC(),
 	}
 }
 
 func (u *User) Validate() error {
-	if isInvalidEmail(u.Email) {
-		return exceptions.ErrInvalidEmail
+	if err := u.Email.Validate(); err != nil {
+		return err
 	}
 	if !isStrongPassword(u.Password) {
 		return exceptions.ErrInvalidPassword
 	}
 	return nil
-}
-
-func isInvalidEmail(email string) bool {
-	_, err := mail.ParseAddress(email)
-	return err != nil
 }
 
 func (u *User) UpdatePassword(password string) {

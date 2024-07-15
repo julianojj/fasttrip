@@ -37,6 +37,9 @@ definitions:
       check_out:
         example: "2024-06-04T13:00:00Z"
         type: string
+      email:
+        example: juliano@test.com
+        type: string
       overnight:
         example: 3
         type: integer
@@ -49,6 +52,9 @@ definitions:
       total_guests:
         example: 2
         type: integer
+      whatsapp:
+        example: "43999999999"
+        type: string
     type: object
   usecases.GetBookingsOutput:
     properties:
@@ -97,17 +103,25 @@ definitions:
       check_out:
         example: "2024-06-04T13:00:00Z"
         type: string
+      email:
+        example: juliano@test.com
+        type: string
       room_id:
         example: "1"
         type: string
       total_guests:
         example: 2
         type: integer
+      whatsapp:
+        example: "43999999999"
+        type: string
     required:
     - check_in
     - check_out
+    - email
     - room_id
     - total_guests
+    - whatsapp
     type: object
   usecases.MakeBookingOutput:
     properties:

@@ -12,7 +12,7 @@ type Booking struct {
 	Period      *Period
 	Status      string
 	TotalGuests int
-	Email       string
+	Email       *Email
 	Whatsapp    string
 }
 
@@ -21,6 +21,8 @@ func NewBooking(
 	checkIn time.Time,
 	checkOut time.Time,
 	totalGuests int,
+	email string,
+	whatsapp string,
 ) *Booking {
 	return &Booking{
 		ID:     uuid.NewString(),
@@ -31,11 +33,16 @@ func NewBooking(
 		},
 		TotalGuests: totalGuests,
 		Status:      "PENDING_PAYMENT",
+		Email:       NewEmail(email),
+		Whatsapp:    whatsapp,
 	}
 }
 
 func (b *Booking) Validate() error {
 	if err := b.Period.Validate(); err != nil {
+		return err
+	}
+	if err := b.Email.Validate(); err != nil {
 		return err
 	}
 	return nil
