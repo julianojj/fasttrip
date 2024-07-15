@@ -21,7 +21,7 @@ func (r *UserRepositoryMemory) Save(user *domain.User) error {
 
 func (r *UserRepositoryMemory) FindByEmail(email string) (*domain.User, error) {
 	for _, user := range r.users {
-		if user.Email == email {
+		if user.Email.Value == email {
 			return user, nil
 		}
 	}

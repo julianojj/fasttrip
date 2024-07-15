@@ -445,6 +445,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "2024-06-04T13:00:00Z"
                 },
+                "email": {
+                    "type": "string",
+                    "example": "juliano@test.com"
+                },
                 "overnight": {
                     "type": "integer",
                     "example": 3
@@ -460,6 +464,10 @@ const docTemplate = `{
                 "total_guests": {
                     "type": "integer",
                     "example": 2
+                },
+                "whatsapp": {
+                    "type": "string",
+                    "example": "43999999999"
                 }
             }
         },
@@ -522,8 +530,10 @@ const docTemplate = `{
             "required": [
                 "check_in",
                 "check_out",
+                "email",
                 "room_id",
-                "total_guests"
+                "total_guests",
+                "whatsapp"
             ],
             "properties": {
                 "check_in": {
@@ -534,6 +544,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "2024-06-04T13:00:00Z"
                 },
+                "email": {
+                    "type": "string",
+                    "example": "juliano@test.com"
+                },
                 "room_id": {
                     "type": "string",
                     "example": "1"
@@ -541,6 +555,10 @@ const docTemplate = `{
                 "total_guests": {
                     "type": "integer",
                     "example": 2
+                },
+                "whatsapp": {
+                    "type": "string",
+                    "example": "43999999999"
                 }
             }
         },

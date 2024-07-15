@@ -21,6 +21,8 @@ type (
 		RoomCategory string    `json:"room_category" example:"Standard"`
 		Overnight    int       `json:"overnight" example:"3"`
 		TotalAmount  float64   `json:"total_amount" example:"300"`
+		Email        string    `json:"email" example:"juliano@test.com"`
+		Whatsapp     string    `json:"whatsapp" example:"43999999999"`
 	}
 )
 
@@ -34,7 +36,7 @@ func NewGetBooking(
 	}
 }
 
-func (gb *GetBooking) Execute(bookingID string) (*GetBookingsOutput, error) {
+func (gb *GetBooking) Execute(bookingID string) (*GetBookingOutput, error) {
 	booking, err := gb.bookingRepository.FindByID(bookingID)
 	if err != nil {
 		return nil, err
@@ -49,7 +51,7 @@ func (gb *GetBooking) Execute(bookingID string) (*GetBookingsOutput, error) {
 	if room == nil {
 		return nil, exceptions.ErrRoomNotFound
 	}
-	return &GetBookingsOutput{
+	return &GetBookingOutput{
 		BookingID:    booking.ID,
 		CheckIn:      booking.Period.Start,
 		CheckOut:     booking.Period.End,
@@ -57,5 +59,7 @@ func (gb *GetBooking) Execute(bookingID string) (*GetBookingsOutput, error) {
 		RoomCategory: room.Category,
 		Overnight:    booking.CalculateOvernight(),
 		TotalAmount:  booking.CalculateTotalAmount(room.Price),
+		Email:        booking.Email.Value,
+		Whatsapp:     booking.Whatsapp,
 	}, nil
 }

@@ -28,7 +28,7 @@ func TestRegisterUser(t *testing.T) {
 				registerUser.Execute(input)
 				user, _ := userRepository.FindByEmail(input.Email)
 				assert.Equal(t, user.Name, input.Name)
-				assert.Equal(t, user.Email, input.Email)
+				assert.Equal(t, user.Email.Value, input.Email)
 				assert.NotEmpty(t, user.ID)
 				assert.NotEqual(t, user.Password, input.Password)
 			},
