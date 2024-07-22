@@ -12,14 +12,7 @@ var _ domain.RoomRepository = (*RoomRepositoryMemory)(nil)
 
 func NewRoomRepositoryMemory() *RoomRepositoryMemory {
 	return &RoomRepositoryMemory{
-		rooms: []*domain.Room{
-			{
-				ID:       "1",
-				Category: "Standard",
-				Price:    100,
-				Capacity: 3,
-			},
-		},
+		rooms: make([]*domain.Room, 0),
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/julianojj/fastrip/internal/core/domain"
 	"github.com/julianojj/fastrip/internal/core/exceptions"
 	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
 	"github.com/stretchr/testify/assert"
@@ -18,12 +19,14 @@ func TestMakeBooking(t *testing.T) {
 			name: "make booking",
 			fn: func(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
+				room := domain.NewRoom("Standard", 700, 3)
+				roomRepository.Save(room)
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
 				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
-					RoomID:      "1",
+					RoomID:      room.ID,
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 2,
@@ -34,19 +37,21 @@ func TestMakeBooking(t *testing.T) {
 				assert.NoError(t, err)
 				assert.NotNil(t, output.BookingID)
 				assert.Equal(t, 3, output.Overnight)
-				assert.Equal(t, 300.00, output.TotalAmount)
+				assert.Equal(t, 2100.00, output.TotalAmount)
 			},
 		},
 		{
 			name: "is overlapping",
 			fn: func(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
+				room := domain.NewRoom("Standard", 700, 3)
+				roomRepository.Save(room)
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
 				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
-					RoomID:      "1",
+					RoomID:      room.ID,
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 2,
@@ -65,12 +70,14 @@ func TestMakeBooking(t *testing.T) {
 			name: "capacity exceeded",
 			fn: func(t *testing.T) {
 				roomRepository := memory.NewRoomRepositoryMemory()
+				room := domain.NewRoom("Standard", 700, 3)
+				roomRepository.Save(room)
 				bookingRepository := memory.NewBookingRepositoryMemory()
 				makeBooking := NewMakeBooking(roomRepository, bookingRepository)
 				checkIn := time.Now().UTC().Add(time.Hour * 24 * 1)
 				checkOut := checkIn.Add(time.Hour * 24 * 3)
 				input := &MakeBookingInput{
-					RoomID:      "1",
+					RoomID:      room.ID,
 					CheckIn:     checkIn,
 					CheckOut:    checkOut,
 					TotalGuests: 4,
