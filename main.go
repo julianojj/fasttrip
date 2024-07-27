@@ -19,7 +19,7 @@ import (
 // @title			Fastrip API
 // @version		v1.7.1
 // @description	Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
-// @host			localhost:8080
+// @host			fastrip.onrender.com
 func main() {
 	r := http.NewServeMux()
 

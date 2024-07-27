@@ -649,8 +649,8 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "v1.6.0",
-	Host:             "localhost:8080",
+	Version:          "v1.7.1",
+	Host:             "fastrip.onrender.com",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Fastrip API",
