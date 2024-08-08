@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"github.com/julianojj/fastrip/internal/core/domain"
-	"github.com/julianojj/fastrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/core/domain"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
 )
 
 type (

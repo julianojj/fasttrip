@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/julianojj/fastrip/internal/infra/adapters"
+	"github.com/julianojj/fasttrip/internal/infra/adapters"
 )
 
 type AuthMiddleware struct {

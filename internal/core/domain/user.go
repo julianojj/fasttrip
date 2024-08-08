@@ -5,7 +5,7 @@ import (
 	"unicode"
 
 	"github.com/google/uuid"
-	"github.com/julianojj/fastrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
 )
 
 type User struct {

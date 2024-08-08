@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/julianojj/fastrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
 	"github.com/stretchr/testify/assert"
 )
 

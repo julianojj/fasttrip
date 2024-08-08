@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/julianojj/fastrip/internal/infra/api/controllers"
+	"github.com/julianojj/fasttrip/internal/infra/api/controllers"
 )
 
 type UserRoute struct {

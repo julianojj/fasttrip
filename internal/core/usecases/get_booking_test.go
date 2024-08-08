@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/julianojj/fastrip/internal/core/domain"
-	"github.com/julianojj/fastrip/internal/core/exceptions"
-	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
+	"github.com/julianojj/fasttrip/internal/core/domain"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/infra/repositories/memory"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -1,4 +1,4 @@
-module github.com/julianojj/fastrip
+module github.com/julianojj/fasttrip
 
 go 1.22.5
 

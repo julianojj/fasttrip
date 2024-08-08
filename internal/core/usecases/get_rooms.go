@@ -1,6 +1,6 @@
 package usecases
 
-import "github.com/julianojj/fastrip/internal/core/domain"
+import "github.com/julianojj/fasttrip/internal/core/domain"
 
 type (
 	GetRooms struct {

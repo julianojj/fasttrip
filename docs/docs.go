@@ -650,11 +650,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "v1.7.1",
-	Host:             "fastrip.onrender.com",
+	Host:             "fasttrip.onrender.com",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Fastrip API",
-	Description:      "Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.",
+	Title:            "Fasttrip API",
+	Description:      "Fasttrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

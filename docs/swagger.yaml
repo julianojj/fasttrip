@@ -181,12 +181,12 @@ definitions:
     required:
     - id
     type: object
-host: fastrip.onrender.com
+host: fasttrip.onrender.com
 info:
   contact: {}
-  description: Fastrip API permite executar operações para cadastrar quartos, fazer
+  description: Fasttrip API permite executar operações para cadastrar quartos, fazer
     reservas, checkin e checkout.
-  title: Fastrip API
+  title: Fasttrip API
   version: v1.7.1
 paths:
   /auth_user:

@@ -3,7 +3,7 @@ package domain
 import (
 	"net/mail"
 
-	"github.com/julianojj/fastrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
 )
 
 type Email struct {
