@@ -3,8 +3,8 @@ package routes
 import (
 	"net/http"
 
-	"github.com/julianojj/fastrip/internal/infra/api/controllers"
-	"github.com/julianojj/fastrip/internal/infra/api/middlewares"
+	"github.com/julianojj/fasttrip/internal/infra/api/controllers"
+	"github.com/julianojj/fasttrip/internal/infra/api/middlewares"
 )
 
 type RoomRoute struct {

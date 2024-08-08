@@ -3,8 +3,8 @@ package usecases
 import (
 	"testing"
 
-	"github.com/julianojj/fastrip/internal/core/exceptions"
-	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/infra/repositories/memory"
 	"github.com/stretchr/testify/assert"
 )
 

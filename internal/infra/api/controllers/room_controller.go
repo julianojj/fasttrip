@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/julianojj/fastrip/internal/core/exceptions"
-	"github.com/julianojj/fastrip/internal/core/usecases"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/core/usecases"
 )
 
 type RoomController struct {

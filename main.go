@@ -6,20 +6,20 @@ import (
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
-	_ "github.com/julianojj/fastrip/docs"
-	"github.com/julianojj/fastrip/internal/core/usecases"
-	"github.com/julianojj/fastrip/internal/infra/adapters"
-	"github.com/julianojj/fastrip/internal/infra/api/controllers"
-	"github.com/julianojj/fastrip/internal/infra/api/middlewares"
-	"github.com/julianojj/fastrip/internal/infra/api/routes"
-	"github.com/julianojj/fastrip/internal/infra/repositories/memory"
+	_ "github.com/julianojj/fasttrip/docs"
+	"github.com/julianojj/fasttrip/internal/core/usecases"
+	"github.com/julianojj/fasttrip/internal/infra/adapters"
+	"github.com/julianojj/fasttrip/internal/infra/api/controllers"
+	"github.com/julianojj/fasttrip/internal/infra/api/middlewares"
+	"github.com/julianojj/fasttrip/internal/infra/api/routes"
+	"github.com/julianojj/fasttrip/internal/infra/repositories/memory"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title			Fastrip API
+// @title			Fasttrip API
 // @version		v1.7.1
-// @description	Fastrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
-// @host			fastrip.onrender.com
+// @description	Fasttrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
+// @host			fasttrip.onrender.com
 func main() {
 	r := http.NewServeMux()
 

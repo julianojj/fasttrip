@@ -3,9 +3,9 @@ package usecases
 import (
 	"log/slog"
 
-	"github.com/julianojj/fastrip/internal/core/domain"
-	"github.com/julianojj/fastrip/internal/core/exceptions"
-	"github.com/julianojj/fastrip/internal/infra/adapters"
+	"github.com/julianojj/fasttrip/internal/core/domain"
+	"github.com/julianojj/fasttrip/internal/core/exceptions"
+	"github.com/julianojj/fasttrip/internal/infra/adapters"
 )
 
 type (
