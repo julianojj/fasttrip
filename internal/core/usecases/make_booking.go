@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"fmt"
 	"log/slog"
 	"time"
 
@@ -88,6 +89,20 @@ func (mb *MakeBooking) Execute(input *MakeBookingInput) (*MakeBookingOutput, err
 			"error", err,
 		)
 		return nil, err
+	}
+	for i := 1; i <= booking.TotalGuests; i++ {
+		guest := domain.NewGuest(
+			booking.ID,
+			fmt.Sprintf("Guest %d", i),
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			time.Now(),
+		)
+		booking.AddGuest(guest)
 	}
 	if err := mb.bookingRepository.Save(booking); err != nil {
 		slog.Error(

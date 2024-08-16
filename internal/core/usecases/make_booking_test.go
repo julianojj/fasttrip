@@ -38,6 +38,8 @@ func TestMakeBooking(t *testing.T) {
 				assert.NotNil(t, output.BookingID)
 				assert.Equal(t, 3, output.Overnight)
 				assert.Equal(t, 2100.00, output.TotalAmount)
+				booking, _ := bookingRepository.FindByID(output.BookingID)
+				assert.Len(t, booking.Guests, 2)
 			},
 		},
 		{

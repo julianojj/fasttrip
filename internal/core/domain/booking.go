@@ -14,6 +14,7 @@ type Booking struct {
 	TotalGuests int
 	Email       *Email
 	Whatsapp    string
+	Guests      []*Guest
 }
 
 func NewBooking(
@@ -58,4 +59,8 @@ func (b *Booking) CalculateTotalAmount(amount float64) float64 {
 
 func (b *Booking) ConfirmBooking() {
 	b.Status = "CONFIRMED"
+}
+
+func (b *Booking) AddGuest(guest *Guest) {
+	b.Guests = append(b.Guests, guest)
 }
