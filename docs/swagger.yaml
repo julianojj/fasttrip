@@ -26,6 +26,36 @@ definitions:
     required:
     - token
     type: object
+  usecases.GetBookingGuestsOutput:
+    properties:
+      birth_date:
+        example: "1990-01-01T00:00:00Z"
+        type: string
+      document_number:
+        example: "12345678901"
+        type: string
+      document_type:
+        example: CPF
+        type: string
+      email:
+        example: johndoe@example.com
+        type: string
+      gender:
+        example: Masculino
+        type: string
+      guest_id:
+        example: 326ebf92-1597-4850-b21e-3c1c8d7e5c6e
+        type: string
+      last_name:
+        example: Doe
+        type: string
+      name:
+        example: John
+        type: string
+      whatsapp:
+        example: "43888888888"
+        type: string
+    type: object
   usecases.GetBookingOutput:
     properties:
       booking_id:
@@ -40,6 +70,10 @@ definitions:
       email:
         example: juliano@test.com
         type: string
+      guests:
+        items:
+          $ref: '#/definitions/usecases.GetBookingGuestsOutput'
+        type: array
       overnight:
         example: 3
         type: integer

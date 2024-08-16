@@ -423,6 +423,47 @@
                 }
             }
         },
+        "usecases.GetBookingGuestsOutput": {
+            "type": "object",
+            "properties": {
+                "birth_date": {
+                    "type": "string",
+                    "example": "1990-01-01T00:00:00Z"
+                },
+                "document_number": {
+                    "type": "string",
+                    "example": "12345678901"
+                },
+                "document_type": {
+                    "type": "string",
+                    "example": "CPF"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                },
+                "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                },
+                "guest_id": {
+                    "type": "string",
+                    "example": "326ebf92-1597-4850-b21e-3c1c8d7e5c6e"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "whatsapp": {
+                    "type": "string",
+                    "example": "43888888888"
+                }
+            }
+        },
         "usecases.GetBookingOutput": {
             "type": "object",
             "properties": {
@@ -441,6 +482,12 @@
                 "email": {
                     "type": "string",
                     "example": "juliano@test.com"
+                },
+                "guests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/usecases.GetBookingGuestsOutput"
+                    }
                 },
                 "overnight": {
                     "type": "integer",
