@@ -6,6 +6,7 @@ type UnauthorizedException struct {
 
 var (
 	ErrInvalidLogin = NewUnauthorizedException("invalid login")
+	ErrDecodeToken  = NewUnauthorizedException("error to decode token")
 )
 
 var _ error = (*UnauthorizedException)(nil)

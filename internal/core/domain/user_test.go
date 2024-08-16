@@ -20,6 +20,14 @@ func TestUser(t *testing.T) {
 			},
 		},
 		{
+			name: "upgrade plan pro",
+			fn: func(t *testing.T) {
+				user := NewUser("John Doe", "johndoe@example.com", "P4ssw0rd!")
+				user.UpgradePlanToPro()
+				assert.Equal(t, user.PlanType, "pro")
+			},
+		},
+		{
 			name: "update password",
 			fn: func(t *testing.T) {
 				user := NewUser("John Doe", "johndoe@example.com", "P4ssw0rd!")

@@ -20,17 +20,17 @@ func TestRegisterUser(t *testing.T) {
 				userRepository := memory.NewUserRepositoryMemory()
 				hash := adapters.NewBcrypt()
 				registerUser := NewRegisterUser(userRepository, hash)
+				getUser := NewGetUser(userRepository)
 				input := &RegisterUserInput{
 					Name:     "John Doe",
 					Email:    "johndoe@example.com",
 					Password: "P4ssw0rd!",
 				}
-				registerUser.Execute(input)
-				user, _ := userRepository.FindByEmail(input.Email)
-				assert.Equal(t, user.Name, input.Name)
-				assert.Equal(t, user.Email.Value, input.Email)
+				output, _ := registerUser.Execute(input)
+				user, _ := getUser.Execute(output.ID)
 				assert.NotEmpty(t, user.ID)
-				assert.NotEqual(t, user.Password, input.Password)
+				assert.Equal(t, input.Name, user.Name)
+				assert.Equal(t, "free", user.PlanType)
 			},
 		},
 		{

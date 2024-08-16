@@ -200,6 +200,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/get_user/{user_id}": {
+            "get": {
+                "description": "Pegar usuário por ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Pegar usuário",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Insert you bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/usecases.GetUserOutput"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/make_booking": {
             "post": {
                 "description": "Faz nova reserva",
@@ -421,12 +475,17 @@ const docTemplate = `{
         "usecases.AuthUserOutput": {
             "type": "object",
             "required": [
-                "token"
+                "token",
+                "user_id"
             ],
             "properties": {
                 "token": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "07410ea5-98e3-4aab-8d23-35112a67197f"
                 }
             }
         },
@@ -572,6 +631,23 @@ const docTemplate = `{
                 }
             }
         },
+        "usecases.GetUserOutput": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "3b51a987-029c-42cb-9450-9a066f025b9f"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "plan_type": {
+                    "type": "string",
+                    "example": "free"
+                }
+            }
+        },
         "usecases.MakeBookingInput": {
             "type": "object",
             "required": [
@@ -696,8 +772,8 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "v1.7.1",
-	Host:             "fasttrip.onrender.com",
+	Version:          "v1.8.0",
+	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Fasttrip API",

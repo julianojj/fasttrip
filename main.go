@@ -17,9 +17,9 @@ import (
 )
 
 // @title			Fasttrip API
-// @version		v1.7.1
+// @version		v1.8.0
 // @description	Fasttrip API permite executar operações para cadastrar quartos, fazer reservas, checkin e checkout.
-// @host			fasttrip.onrender.com
+// @host			api.fasttrip.com.br
 func main() {
 	r := http.NewServeMux()
 
@@ -43,16 +43,17 @@ func main() {
 	getRooms := usecases.NewGetRooms(roomRepository)
 	registerUser := usecases.NewRegisterUser(userRepository, hash)
 	authUser := usecases.NewAuthUser(userRepository, hash, sign)
+	getUser := usecases.NewGetUser(userRepository)
 
 	bookingController := controllers.NewBookingController(makeBooking, getBookings, getBooking)
 	roomController := controllers.NewRoomController(registerRoom, getRooms)
-	userController := controllers.NewUserController(registerUser, authUser)
+	userController := controllers.NewUserController(registerUser, authUser, getUser)
 
 	authMiddleware := middlewares.NewAuthMiddleware(sign)
 
 	routes.NewBookingRoute(r, bookingController, authMiddleware).Init()
 	routes.NewRoomRoute(r, roomController, authMiddleware).Init()
-	routes.NewUserRoute(r, userController).Init()
+	routes.NewUserRoute(r, userController, authMiddleware).Init()
 
 	r.HandleFunc("/swagger/*", httpSwagger.WrapHandler)
 
