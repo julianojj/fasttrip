@@ -14,15 +14,18 @@ type User struct {
 	Email     *Email
 	Password  string
 	CreatedAt time.Time
+	PlanType  string
 }
 
 func NewUser(name, email, password string) *User {
+	userID := uuid.NewString()
 	return &User{
-		ID:        uuid.NewString(),
+		ID:        userID,
 		Name:      name,
 		Email:     NewEmail(email),
 		Password:  password,
 		CreatedAt: time.Now().UTC(),
+		PlanType:  "free",
 	}
 }
 
@@ -63,4 +66,8 @@ func isStrongPassword(password string) bool {
 		}
 	}
 	return hasUpper && hasLower && hasDigit && hasSpecial
+}
+
+func (u *User) UpgradePlanToPro() {
+	u.PlanType = "pro"
 }

@@ -19,7 +19,8 @@ type (
 		Password string `json:"password" binding:"required" example:"P4ssw0rd!"`
 	}
 	AuthUserOutput struct {
-		Token string `json:"token" binding:"required" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g"`
+		UserID string `json:"user_id" binding:"required" example:"07410ea5-98e3-4aab-8d23-35112a67197f"`
+		Token  string `json:"token" binding:"required" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjA4Mjk5MDAsInN1YiI6IjUwNmU4Mjc4LTNiMzktNDI0ZS04NGU4LWMzYTE4NzcwNzBiNyJ9.AlUCK04QFIcGwlRw0e29fRMYlzZ3V979EH3pWlFVA1g"`
 	}
 )
 
@@ -53,6 +54,7 @@ func (a *AuthUser) Execute(input *AuthUserInput) (*AuthUserOutput, error) {
 		return nil, err
 	}
 	return &AuthUserOutput{
-		Token: token,
+		UserID: user.ID,
+		Token:  token,
 	}, nil
 }

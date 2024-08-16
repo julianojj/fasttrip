@@ -11,15 +11,18 @@ import (
 type UserController struct {
 	registerUser *usecases.RegisterUser
 	authUser     *usecases.AuthUser
+	getUser      *usecases.GetUser
 }
 
 func NewUserController(
 	registerUser *usecases.RegisterUser,
 	authUser *usecases.AuthUser,
+	getUser *usecases.GetUser,
 ) *UserController {
 	return &UserController{
 		registerUser,
 		authUser,
+		getUser,
 	}
 }
 
@@ -96,6 +99,40 @@ func (c *UserController) RegisterUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(&output); err != nil {
+		handleError(w, http.StatusInternalServerError, "Failed to encode response")
+		return
+	}
+}
+
+// GetUser godoc
+//
+//	@Summary		Pegar usuário
+//	@Description	Pegar usuário por ID
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Insert you bearer token"
+//	@Param			user_id			path		string	true	"User ID"
+//	@Success		200				{array}		usecases.GetUserOutput
+//	@Failure		404				{object}	ErrorResponse
+//	@Failure		500				{object}	ErrorResponse
+//	@Router			/get_user/{user_id} [get]
+func (c *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
+	params := r.PathValue("user_id")
+	output, err := c.getUser.Execute(params)
+	if err != nil {
+		statusCode := http.StatusInternalServerError
+		switch err.(type) {
+		case *exceptions.NotFoundException:
+			statusCode = http.StatusNotFound
+		}
+		handleError(w, statusCode, err.Error())
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(&output); err != nil {
 		handleError(w, http.StatusInternalServerError, "Failed to encode response")
 		return

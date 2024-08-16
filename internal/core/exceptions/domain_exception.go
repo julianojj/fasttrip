@@ -17,6 +17,7 @@ var (
 	ErrInvalidPassword    = NewDomainException("Invalid password")
 	ErrInvalidPeriod      = NewDomainException("Invalid period")
 	ErrInsufficientPeriod = NewDomainException("Overnight should be greater than 1")
+	ErrInvalidPlan        = NewDomainException("Invalid plan")
 )
 
 var _ error = (*DomainException)(nil)
