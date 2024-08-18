@@ -1,0 +1,13 @@
+services:
+  api:
+    container_name: api
+    build: .
+  proxy:
+    container_name: proxy
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy:/etc/nginx/conf.d/
+    depends_on:
+      - api

@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.6.0
+        with:
+          ssh-private-key: ${{ secrets.LIGHTSAIL_KEY }}
+
+      - name: Deploy to Lightsail
+        run: |
+          # Definir variáveis
+          SERVER_IP=${{ secrets.SERVER_IP }}
+          SSH_USER=${{ secrets.USER_NAME }}
+          GH_TOKEN=${{ secrets.GH_TOKEN }}
+
+          # Conectar à instância e realizar o deploy
+          ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP << EOF
+            # Navegar até o diretório onde você deseja clonar o repositório
+            cd ~ || exit
+
+            # Configurar credenciais do Git
+            git config --global credential.helper store
+            echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
+
+            # Clonar o repositório (ou atualizar se já existir)
+            if [ -d "fasttrip" ]; then
+              cd fasttrip
+              git pull origin main
+            else
+              git clone https://github.com/julianojj/fasttrip.git
+              cd fasttrip
+            fi
+
+            # Verificar se o docker-compose.prod.yml está presente
+            if [ ! -f "docker-compose.prod.yml" ]; then
+              echo "Arquivo docker-compose.prod.yml não encontrado!"
+              exit 1
+            fi
+
+            # Construir e rodar os containers Docker
+            docker compose -f docker-compose.prod.yml up -d
+          EOF
