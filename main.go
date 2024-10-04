@@ -13,6 +13,8 @@ import (
 	"github.com/julianojj/fasttrip/internal/infra/api/middlewares"
 	"github.com/julianojj/fasttrip/internal/infra/api/routes"
 	"github.com/julianojj/fasttrip/internal/infra/repositories/memory"
+	"github.com/newrelic/go-agent/v3/integrations/logcontext-v2/nrslog"
+	"github.com/newrelic/go-agent/v3/newrelic"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
@@ -23,7 +25,16 @@ import (
 func main() {
 	r := http.NewServeMux()
 
-	jsonHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+	app, err := newrelic.NewApplication(
+		newrelic.ConfigAppName("fasttrip"),
+		newrelic.ConfigLicense(os.Getenv("NR_KEY")),
+		newrelic.ConfigAppLogForwardingEnabled(true),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	jsonHandler := nrslog.JSONHandler(app, os.Stdout, &slog.HandlerOptions{
 		AddSource: true,
 		Level:     slog.LevelInfo,
 	})
@@ -51,9 +62,9 @@ func main() {
 
 	authMiddleware := middlewares.NewAuthMiddleware(sign)
 
-	routes.NewBookingRoute(r, bookingController, authMiddleware).Init()
-	routes.NewRoomRoute(r, roomController, authMiddleware).Init()
-	routes.NewUserRoute(r, userController, authMiddleware).Init()
+	routes.NewBookingRoute(r, app, bookingController, authMiddleware).Init()
+	routes.NewRoomRoute(r, app, roomController, authMiddleware).Init()
+	routes.NewUserRoute(r, app, userController, authMiddleware).Init()
 
 	r.HandleFunc("/swagger/*", httpSwagger.WrapHandler)
 
